@@ -6,6 +6,7 @@ export default gql`
     getUsers(input: GetUsersInput!): UsersList
     me: User
     getCards: [Card]
+    getProjects: [Project]
     getCard(id: Int!): Card
     getUser(id: Int!): User
     getAllUsers: [User]
@@ -23,6 +24,7 @@ export default gql`
     #User
     updateUser(input: UpdateUserInput): User
     addCard(input: AddCardInput!): Boolean
+    addProject(input: AddProjectInput!): Boolean
     updateCard(input: UpdateCardInput!): Boolean
     deleteUser(id: Int!): Boolean
     createUser(input: CreateUserInput!): User
