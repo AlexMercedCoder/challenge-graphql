@@ -33,6 +33,13 @@ const typeDefs = gql`
     stripe_account_id: String
   }
 
+  type Project {
+    id: Int!
+    name: String
+    description: String
+    user_id: Int
+  }
+
   type UsersList {
     results: [User]
     count: Int
@@ -163,7 +170,14 @@ const resolvers = {
       return `${month}/${exp_year.slice(-2)}`;
     },
     isDefault,
-  },
+}, Project: {
+    name: ({ name, description }) => {
+      return {
+          name: name,
+          description: description
+      }
+    },
+  }
 };
 
 export default { resolvers, typeDefs };
