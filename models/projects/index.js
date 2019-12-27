@@ -16,6 +16,11 @@ export const get = async id => {
     .first();
 };
 
+export const getByUser = async user_id => {
+  return await Project.query()
+    .where({ user_id })
+};
+
 export const update = async (id, input) => {
   return await Project.query()
     .where({ id })
@@ -32,3 +37,5 @@ Project.get = get;
 Project.create = create;
 Project.update = update;
 Project.delete = del;
+
+Project.getByUser =getByUser;

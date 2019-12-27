@@ -4,7 +4,6 @@ import { adminAuth } from 'shared/authenticated';
 // Mutations
 import updateUser from './mutations/update-user';
 import addCard from './mutations/add-card';
-import addProject from './mutations/add-project';
 import updateCard from './mutations/update-card';
 import deleteUser from './mutations/delete-user';
 import createUser from './mutations/create-user';
@@ -14,7 +13,6 @@ import updateSelf from './mutations/update-self';
 import getUsers from './queries/users';
 import me from './queries/me';
 import getCards from './queries/get-cards';
-import getProjects from './queries/get-projects';
 import getCard from './queries/get-card';
 import getUser from './queries/get-user';
 import getAllUsers from './queries/get-all-users';
@@ -37,13 +35,6 @@ const typeDefs = gql`
     name: String
     image: String
     stripe_account_id: String
-  }
-
-  type Project {
-    id: Int!
-    name: String
-    description: String
-    user_id: Int
   }
 
   type UsersList {
@@ -100,12 +91,6 @@ const typeDefs = gql`
     isDefault: Boolean
   }
 
-  input AddProjectInput {
-    token: String!
-    name: String!
-    description: String!
-  }
-
   input UpdateCardInput {
     id: Int!
     name: String
@@ -151,13 +136,11 @@ const resolvers = {
       adminAuth(parent, args, context, info, test),
     me,
     getCards,
-    getProjects,
     getCard,
   },
   Mutation: {
     updateUser,
     addCard,
-    addProject,
     updateCard,
     updateSelf,
     deleteUser: (parent, args, context, info) =>
@@ -185,20 +168,7 @@ const resolvers = {
     },
     isDefault,
 },
-//As I understand it, the resolver essentially determines what info and how it available to GraphQL
-//Currently assuming we'll filter by user during the query, so the resolver just returns an object with the
-//name and description, not sure if I need to define a separate list object to hold a list of projects
-//Next I'm going to info the existing mutations and queries to see how the card type was handled since
-//It is also an object created and associated with a user.
 
-Project: {
-    name: ({ name, description }) => {
-      return {
-          name: name,
-          description: description
-      }
-    },
-  }
 };
 
 export default { resolvers, typeDefs };

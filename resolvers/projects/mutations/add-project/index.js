@@ -5,7 +5,7 @@ import Project from 'models/projects';
 
 export default async (
   _,
-  { input: { token, name, description} },
+  { input: { name, description} },
   { user },
 ) => {
   if (!user) {
@@ -16,13 +16,20 @@ export default async (
 
   try {
 
-    const project = await Project.create({
+    console.log(user)
+    const newProject = await Project.create({
       name: name,
       description: description,
       user_id: user.id
     });
 
-    return true;
+    return await {
+        id: newProject.id,
+        name: newProject.name,
+        description: newProject.description,
+        user_id: newProject.user_id,
+        user: User.getUserById(newProject.user_id)
+    }
   } catch (error) {
     ApolloError({
       code: 400,
